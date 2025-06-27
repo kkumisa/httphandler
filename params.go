@@ -13,7 +13,7 @@ type IDParam struct {
 }
 
 // RouteParamName returns the route parameter name for the ID.
-// Override this in embedded structs if route param name should be different than 'id'.
+// Note: Override this if route param name should be different than 'id'.
 func (p *IDParam) RouteParamName() string {
 	return "id"
 }

@@ -33,7 +33,7 @@ type FilterCondition struct {
 }
 
 type FilterParams struct {
-	Conditions []FilterCondition `json:"-"` // Don't serialize filter params
+	Conditions []FilterCondition `json:"-"`
 }
 
 // BindFilters implements FilterBinder interface

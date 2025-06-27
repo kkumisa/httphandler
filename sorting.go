@@ -26,7 +26,8 @@ type SortParams struct {
 func (sp *SortParams) BindSort(values url.Values) error {
 	sortParam := values.Get("sort")
 	if sortParam == "" {
-		return nil // Sorting is optional
+		// Sorting is optional
+		return nil
 	}
 
 	fields := strings.Split(sortParam, ",")
@@ -39,7 +40,8 @@ func (sp *SortParams) BindSort(values url.Values) error {
 		}
 
 		sortField := SortField{
-			Direction: SortAsc, // Default direction
+			// Default direction
+			Direction: SortAsc,
 		}
 
 		switch {

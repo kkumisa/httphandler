@@ -14,7 +14,7 @@ type PaginatedList[T any] struct {
 
 // BindQueryParams implements QueryParamBinder interface
 func (pl *PaginatedList[T]) BindQueryParams(values url.Values) error {
-	pl.setDefaults()
+	pl.SetDefaults()
 
 	if limitStr := values.Get("limit"); limitStr != "" {
 		limit, err := strconv.Atoi(limitStr)
@@ -35,7 +35,7 @@ func (pl *PaginatedList[T]) BindQueryParams(values url.Values) error {
 }
 
 // setDefaults initializes default values
-func (pl *PaginatedList[T]) setDefaults() {
+func (pl *PaginatedList[T]) SetDefaults() {
 	pl.Limit = 10
 	pl.NextCursor = ""
 	if pl.Items == nil {

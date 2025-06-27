@@ -16,7 +16,7 @@ func (ur *UserRequest) RouteParamName() string {
 	return "user_id"
 }
 
-// UserListRequest demonstrates comprehensive query parameter binding
+// UserListRequest demonstrates query parameter binding
 type UserListRequest struct {
 	PaginatedList[User]        // Embeds pagination
 	SortParams                 // Embeds sorting
@@ -51,32 +51,4 @@ type User struct {
 	Email  string `json:"email"`
 	Status string `json:"status"`
 	Age    int    `json:"age"`
-}
-
-// ProductListRequest demonstrates advanced filtering and sorting
-type ProductListRequest struct {
-	PaginatedList[Product]        // Pagination
-	SortParams                    // Sorting
-	FilterParams                  // Filtering
-	Category               string `json:"category,omitempty"`
-}
-
-// BindQueryParams handles custom query parameters
-func (plr *ProductListRequest) BindQueryParams(values url.Values) error {
-	if err := plr.PaginatedList.BindQueryParams(values); err != nil {
-		return err
-	}
-
-	plr.Category = values.Get("category")
-	return nil
-}
-
-// Product represents a product entity (example)
-type Product struct {
-	ID        string  `json:"id"`
-	Name      string  `json:"name"`
-	Category  string  `json:"category"`
-	Price     float64 `json:"price"`
-	InStock   bool    `json:"in_stock"`
-	CreatedAt string  `json:"created_at"`
 }

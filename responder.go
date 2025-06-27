@@ -6,15 +6,8 @@ import (
 	"net/http"
 )
 
-// HTTPResponder handles writing HTTP responses.
-type HTTPResponder struct{}
-
-func NewHTTPResponder() *HTTPResponder {
-	return &HTTPResponder{}
-}
-
 // RespondWithError writes an error response to the HTTP response writer.
-func (r *HTTPResponder) RespondWithError(w http.ResponseWriter, err error) {
+func RespondWithError(w http.ResponseWriter, err error) {
 	var httpErr HTTPError
 	if !errors.As(err, &httpErr) {
 		httpErr = NewInternalServerError("Internal server error")
@@ -25,7 +18,7 @@ func (r *HTTPResponder) RespondWithError(w http.ResponseWriter, err error) {
 	jsonData, encodeErr := json.Marshal(response)
 	if encodeErr != nil {
 		//TODO see what to do with this
-		r.respondWithPlainTextError(w, httpErr)
+		respondWithPlainTextError(w, httpErr)
 		return
 	}
 
@@ -35,7 +28,7 @@ func (r *HTTPResponder) RespondWithError(w http.ResponseWriter, err error) {
 }
 
 // RespondWithSuccess writes a successful response to the HTTP response writer.
-func (r *HTTPResponder) RespondWithSuccess(w http.ResponseWriter, data any) {
+func RespondWithSuccess(w http.ResponseWriter, data any) {
 	if data == nil {
 		w.WriteHeader(http.StatusNoContent)
 		return
@@ -43,7 +36,7 @@ func (r *HTTPResponder) RespondWithSuccess(w http.ResponseWriter, data any) {
 
 	jsonData, err := json.Marshal(data)
 	if err != nil {
-		r.RespondWithError(w, NewInternalServerError("failed to encode response"))
+		RespondWithError(w, NewInternalServerError("failed to encode response"))
 		return
 	}
 
@@ -53,7 +46,7 @@ func (r *HTTPResponder) RespondWithSuccess(w http.ResponseWriter, data any) {
 }
 
 // respondWithPlainTextError writes error as plain text when JSON encoding fails.
-func (r *HTTPResponder) respondWithPlainTextError(w http.ResponseWriter, err HTTPError) {
+func respondWithPlainTextError(w http.ResponseWriter, err HTTPError) {
 	w.Header().Set("Content-Type", "text/plain")
 	w.WriteHeader(err.StatusCode())
 	w.Write([]byte(err.Message()))
