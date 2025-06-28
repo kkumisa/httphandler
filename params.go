@@ -26,7 +26,7 @@ func (p *IDParam) BindRouteParam(value string) {
 // This Object satisfies PatchFieldExtractor interface and can be embedded into object that needs
 // extraction of the patch field.
 type PatchFields struct {
-	fieldsToUpdate []string
+	FieldsToUpdate []string
 }
 
 func (pf *PatchFields) ExtractPatchFields(values url.Values) error {
@@ -49,6 +49,6 @@ func (pf *PatchFields) ExtractPatchFields(values url.Values) error {
 		return NewBadRequestError("at least one field must be specified for update")
 	}
 
-	pf.fieldsToUpdate = cleanFields
+	pf.FieldsToUpdate = cleanFields
 	return nil
 }
