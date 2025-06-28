@@ -23,8 +23,7 @@ func BindRequest(r *http.Request, req any) error {
 		if err := bindPatchRequest(r, req); err != nil {
 			return fmt.Errorf("couldn't bind patch request: %w ", err)
 		}
-
-	default:
+	case http.MethodPost:
 		if err := bindJSONBody(r, req); err != nil {
 			return fmt.Errorf("couldn't bind json body: %w ", err)
 		}
